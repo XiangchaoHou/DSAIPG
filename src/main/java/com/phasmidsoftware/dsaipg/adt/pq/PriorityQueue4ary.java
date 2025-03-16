@@ -167,7 +167,7 @@ public class PriorityQueue4ary<K> implements Iterable<K> {
      * @param k the starting index of the element in the heap to be adjusted.
      */
     void snake(@SuppressWarnings("SameParameterValue") int k) {
-        swimUp(doHeapify(k, (a, b) -> !unordered(a, b)));
+        swimUp(doHeapify(k, (a, b) -> false));
     }
 
     /**
@@ -222,35 +222,22 @@ public class PriorityQueue4ary<K> implements Iterable<K> {
     private int doHeapify(int k, BiPredicate<Integer, Integer> p) {
         int i = k;
         while (firstChild(i) <= last + first - 1) {
-            int j1 = firstChild(i);
-            int j2 = j1 + 1;
-            int j3 = j2 + 1;
-            int j4 = j3 + 1;
+            int firstChild = firstChild(i);
+            int bestChild = firstChild(i);
 
-            if(j2 > last + first - 1) {
-                j2 = j1;
+            if(firstChild + 1 < last + first - 1 && unordered(bestChild, firstChild + 1)) {
+                bestChild = firstChild(i) + 1;
             }
-            if(j3 > last + first - 1) {
-                j3 = j1;
+            if(firstChild + 2 < last + first - 1 && unordered(bestChild, firstChild + 2)) {
+                bestChild = firstChild(i) + 2;
             }
-            if(j4 > last + first - 1) {
-                j4 = j1;
+            if(firstChild + 3 < last + first - 1 && unordered(bestChild, firstChild + 3)) {
+                bestChild = firstChild(i) + 3;
             }
 
-            int j = j1;
-
-            if(unordered(j, j2)) {
-                j = j2;
-            }
-            if(unordered(j, j3)) {
-                j = j3;
-            }
-            if(unordered(j, j4)) {
-                j = j4;
-            }
-            if (p.test(i, j)) break;
-            swap(i, j);
-            i = j;
+            if (p.test(i, bestChild)) break;
+            swap(i, bestChild);
+            i = bestChild;
         }
         return i;
     }

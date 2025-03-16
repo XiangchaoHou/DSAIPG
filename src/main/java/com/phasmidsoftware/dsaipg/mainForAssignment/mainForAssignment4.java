@@ -1,5 +1,6 @@
 package com.phasmidsoftware.dsaipg.mainForAssignment;
 
+import com.phasmidsoftware.dsaipg.adt.pq.FibonacciHeap;
 import com.phasmidsoftware.dsaipg.adt.pq.PQException;
 import com.phasmidsoftware.dsaipg.adt.pq.PriorityQueue4ary;
 import com.phasmidsoftware.dsaipg.adt.pq.PriorityQueue;
@@ -8,10 +9,6 @@ import com.phasmidsoftware.dsaipg.util.Benchmark_Timer;
 import java.util.*;
 
 public class mainForAssignment4 {
-
-
-
-
     public static void main(String[] args) {
         final int M = 4095;
         final int I = 16000;
@@ -22,13 +19,19 @@ public class mainForAssignment4 {
         Random random = new Random();
         Integer[] r = new Integer[I*16];
         for (int i = 0; i < I*16; i++) {
-            r[i] = random.nextInt(16000);
+            r[i] = random.nextInt(10000);
         }
         Integer[] e1 = new Integer[M+1];
         Integer[] e2 = new Integer[(M+1)*2];
         Integer[] e3 = new Integer[(M+1)*4];
         Integer[] e4 = new Integer[(M+1)*8];
         Integer[] e5 = new Integer[(M+1)*16];
+
+        Arrays.fill(e1, null);
+        Arrays.fill(e2, null);
+        Arrays.fill(e3, null);
+        Arrays.fill(e4, null);
+        Arrays.fill(e5, null);
 
         List<Integer> spilledBin = new ArrayList<>();
         List<Integer> spilledFloydBin = new ArrayList<>();
@@ -56,7 +59,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e1, null);
         });
-        double bt1 = b1.run(false, 100);
+        double bt1 = b1.run(false, 200);
         Collections.sort(spilledBin);
         t1[0] = spilledBin.get(spilledBin.size() - 1);
 
@@ -77,7 +80,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e2, null);
         });
-        double bt2 = b2.run(false, 100);
+        double bt2 = b2.run(false, 200);
         Collections.sort(spilledBin);
         t1[1] = spilledBin.get(spilledBin.size() - 1);
 
@@ -98,7 +101,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e3, null);
         });
-        double bt3 = b3.run(false, 100);
+        double bt3 = b3.run(false, 200);
         Collections.sort(spilledBin);
         t1[2] = spilledBin.get(spilledBin.size() - 1);
 
@@ -119,7 +122,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e4, null);
         });
-        double bt4 = b4.run(false, 100);
+        double bt4 = b4.run(false, 200);
         Collections.sort(spilledBin);
         t1[3] = spilledBin.get(spilledBin.size() - 1);
 
@@ -140,7 +143,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e5, null);
         });
-        double bt5 = b5.run(false, 100);
+        double bt5 = b5.run(false, 200);
         Collections.sort(spilledBin);
         t1[4] = spilledBin.get(spilledBin.size() - 1);
         System.out.println("MaxSpilled: " + t1[0] + ", " + t1[1] + ", " + t1[2] + ", " + t1[3] + ", " + t1[4]);
@@ -163,7 +166,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e1, null);
         });
-        double fbt1 = fb1.run(false, 100);
+        double fbt1 = fb1.run(false, 200);
         Collections.sort(spilledFloydBin);
         t2[0] = spilledFloydBin.get(spilledFloydBin.size() - 1);
 
@@ -184,7 +187,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e2, null);
         });
-        double fbt2 = fb2.run(false, 100);
+        double fbt2 = fb2.run(false, 200);
         Collections.sort(spilledFloydBin);
         t2[1] = spilledFloydBin.get(spilledFloydBin.size() - 1);
 
@@ -205,7 +208,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e3, null);
         });
-        double fbt3 = fb3.run(false, 100);
+        double fbt3 = fb3.run(false, 200);
         Collections.sort(spilledFloydBin);
         t2[2] = spilledFloydBin.get(spilledFloydBin.size() - 1);
 
@@ -226,7 +229,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e4, null);
         });
-        double fbt4 = fb4.run(false, 100);
+        double fbt4 = fb4.run(false, 200);
         Collections.sort(spilledFloydBin);
         t2[3] = spilledFloydBin.get(spilledFloydBin.size() - 1);
 
@@ -247,7 +250,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e5, null);
         });
-        double fbt5 = fb5.run(false, 100);
+        double fbt5 = fb5.run(false, 200);
         Collections.sort(spilledFloydBin);
         t2[4] = spilledFloydBin.get(spilledFloydBin.size() - 1);
         System.out.println("MaxSpilled: " + t2[0] + ", " + t2[1] + ", " + t2[2] + ", " + t2[3] + ", " + t2[4]);
@@ -270,7 +273,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e1, null);
         });
-        double ft1 = f1.run(false, 100);
+        double ft1 = f1.run(false, 200);
         Collections.sort(spilledFary);
         t3[0] = spilledFary.get(spilledFary.size() - 1);
 
@@ -291,7 +294,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e2, null);
         });
-        double ft2 = f2.run(false, 100);
+        double ft2 = f2.run(false, 200);
         Collections.sort(spilledFary);
         t3[1] = spilledFary.get(spilledFary.size() - 1);
 
@@ -312,7 +315,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e3, null);
         });
-        double ft3 = f3.run(false, 100);
+        double ft3 = f3.run(false, 200);
         Collections.sort(spilledFary);
         t3[2] = spilledFary.get(spilledFary.size() - 1);
 
@@ -333,7 +336,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e4, null);
         });
-        double ft4 = f4.run(false, 100);
+        double ft4 = f4.run(false, 200);
         Collections.sort(spilledFary);
         t3[3] = spilledFary.get(spilledFary.size() - 1);
 
@@ -354,7 +357,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e5, null);
         });
-        double ft5 = f5.run(false, 100);
+        double ft5 = f5.run(false, 200);
         Collections.sort(spilledFary);
         t3[4] = spilledFary.get(spilledFary.size() - 1);
         System.out.println("MaxSpilled: " + t3[0] + ", " + t3[1] + ", " + t3[2] + ", " + t3[3] + ", " + t3[4]);
@@ -377,7 +380,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e1, null);
         });
-        double fft1 = ff1.run(false, 100);
+        double fft1 = ff1.run(false, 200);
         Collections.sort(spilledFloydFary);
         t4[0] = spilledFloydFary.get(spilledFloydFary.size() - 1);
 
@@ -398,7 +401,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e2, null);
         });
-        double fft2 = ff2.run(false, 100);
+        double fft2 = ff2.run(false, 200);
         Collections.sort(spilledFloydFary);
         t4[1] = spilledFloydFary.get(spilledFloydFary.size() - 1);
 
@@ -419,7 +422,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e3, null);
         });
-        double fft3 = ff3.run(false, 100);
+        double fft3 = ff3.run(false, 200);
         Collections.sort(spilledFloydFary);
         t4[2] = spilledFloydFary.get(spilledFloydFary.size() - 1);
 
@@ -440,7 +443,7 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e4, null);
         });
-        double fft4 = ff4.run(false, 100);
+        double fft4 = ff4.run(false, 200);
         Collections.sort(spilledFloydFary);
         t4[3] = spilledFloydFary.get(spilledFloydFary.size() - 1);
 
@@ -461,10 +464,66 @@ public class mainForAssignment4 {
             }
             Arrays.fill(e5, null);
         });
-        double fft5 = ff5.run(false, 100);
+        double fft5 = ff5.run(false, 200);
         Collections.sort(spilledFloydFary);
         t4[4] = spilledFloydFary.get(spilledFloydFary.size() - 1);
         System.out.println("MaxSpilled: " + t4[0] + ", " + t4[1] + ", " + t4[2] + ", " + t4[3] + ", " + t4[4]);
         System.out.printf("FloydFaryHeap: %.3fms, %.3fms, %.3fms, %.3fms, %.3fms\n\n", fft1, fft2, fft3, fft4, fft5);
+
+        Benchmark_Timer fh1 = new Benchmark_Timer("FibonacciHeap1", b-> {
+            FibonacciHeap fabonacciHeap = new FibonacciHeap();
+            for (int i = 0; i < I; i++) {
+                fabonacciHeap.insert(r[i]);
+            }
+            for (int i = 0; i < R; i++) {
+                fabonacciHeap.extractMin();
+            }
+        });
+        double fht1 = fh1.run(false, 200);
+
+        Benchmark_Timer fh2 = new Benchmark_Timer("FibonacciHeap2", b-> {
+            FibonacciHeap fabonacciHeap = new FibonacciHeap();
+            for (int i = 0; i < I*2; i++) {
+                fabonacciHeap.insert(r[i]);
+            }
+            for (int i = 0; i < R*2; i++) {
+                fabonacciHeap.extractMin();
+            }
+        });
+        double fht2 = fh2.run(false, 200);
+
+        Benchmark_Timer fh3 = new Benchmark_Timer("FibonacciHeap4", b-> {
+            FibonacciHeap fabonacciHeap = new FibonacciHeap();
+            for (int i = 0; i < I*4; i++) {
+                fabonacciHeap.insert(r[i]);
+            }
+            for (int i = 0; i < R*4; i++) {
+                fabonacciHeap.extractMin();
+            }
+        });
+        double fht3 = fh3.run(false, 200);
+
+        Benchmark_Timer fh4 = new Benchmark_Timer("FibonacciHeap8", b-> {
+            FibonacciHeap fabonacciHeap = new FibonacciHeap();
+            for (int i = 0; i < I*8; i++) {
+                fabonacciHeap.insert(r[i]);
+            }
+            for (int i = 0; i < R*8; i++) {
+                fabonacciHeap.extractMin();
+            }
+        });
+        double fht4 = fh4.run(false, 200);
+
+        Benchmark_Timer fh5 = new Benchmark_Timer("FibonacciHeap16", b-> {
+            FibonacciHeap fabonacciHeap = new FibonacciHeap();
+            for (int i = 0; i < I*16; i++) {
+                fabonacciHeap.insert(r[i]);
+            }
+            for (int i = 0; i < R*16; i++) {
+                fabonacciHeap.extractMin();
+            }
+        });
+        double fht5 = fh5.run(false, 200);
+        System.out.printf("FibonacciHeap: %.3fms, %.3fms, %.3fms, %.3fms, %.3fms\n\n", fht1, fht2, fht3, fht4, fht5);
     }
 }
