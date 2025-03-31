@@ -7,6 +7,7 @@ package com.phasmidsoftware.dsaipg.sort.linearithmic;
 import com.phasmidsoftware.dsaipg.sort.Helper;
 import com.phasmidsoftware.dsaipg.sort.SortException;
 import com.phasmidsoftware.dsaipg.sort.SortWithComparableHelper;
+import com.phasmidsoftware.dsaipg.sort.SortWithHelper;
 import com.phasmidsoftware.dsaipg.sort.elementary.InsertionSort;
 import com.phasmidsoftware.dsaipg.util.Config;
 
@@ -76,9 +77,24 @@ public class MergeSort<X extends Comparable<X>> extends SortWithComparableHelper
             insertionSort.sort(a, from, to);
             return;
         }
-
         // TO BE IMPLEMENTED  : implement merge sort with insurance and no-copy optimizations
-throw new RuntimeException("implementation missing");
+        int mid = from + (to - from) / 2;
+
+        sort(a, aux, from, mid);
+        sort(a, aux, mid, to);
+
+        if (insurance && !helper.less(a[mid], a[mid - 1])) {
+            return;
+        }
+
+        if (noCopy) {
+            merge(a, aux, from, mid, to);
+            helper.copyBlock(aux, from, a, from, to - from);
+        } else {
+            helper.copyBlock(a, from, aux, from, to - from);
+//            System.arraycopy(a, from, aux, from, to - from);
+            merge(aux, a, from, mid, to);
+        }
     }
 
     // CONSIDER combine with MergeSortBasic, perhaps.
@@ -145,5 +161,4 @@ throw new RuntimeException("implementation missing");
             throw new SortException("Array memory has not been set");
         return 1.0 * maxMemory / arrayMemory;
     }
-
 }

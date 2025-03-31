@@ -49,6 +49,13 @@ public class SortBenchmark {
      * @throws IOException If an IO error occurs during loading configuration or execution.
      */
     public static void main(String[] args) throws IOException {
+//        Helper<String> helper = HelperFactory.create("SortBenchmark", 0, Config.load(SortBenchmark.class));
+//        helper.init(0);
+//        String[] i = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+//        String[] j = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+//        helper.copyBlock(i, 0, j, 5, 5);
+//        System.out.println(helper.getCopies());
+
         Config config = Config.load(SortBenchmark.class);
         logger.info("!!!!!!!!!!!!!!!!!!!! SortBenchmark Start !!!!!!!!!!!!!!!!!!!!\n");
         logger.info("SortBenchmark.main: version " + config.get("sortbenchmark", "version") + " with word counts: " + Arrays.toString(args));
@@ -215,10 +222,16 @@ public class SortBenchmark {
                 runStringSortBenchmark(words, nWords, nRunsLinearithmic * 3, sorter, timeLoggersLinearithmic);
             }
 
-        if (isConfigBenchmarkStringSorter("heapsort") && nRunsLinearithmic > 0) {
-            try (SortWithHelper<String> sorter = new HeapSort<>(nWords, nRunsLinearithmic, config)) {
-                runStringSortBenchmark(words, nWords, nRunsLinearithmic * 3, sorter, timeLoggersLinearithmic);
-            }
+//        if (isConfigBenchmarkStringSorter("heapsort") && nRunsLinearithmic > 0) {
+//            try (SortWithHelper<String> sorter = new HeapSort<>(nWords, nRunsLinearithmic, config)) {
+//                runStringSortBenchmark(words, nWords, nRunsLinearithmic * 3, sorter, timeLoggersLinearithmic);
+//            }
+//        }
+
+        if (isConfigBenchmarkStringSorter("heapsort")) {
+            Helper<String> helper = HelperFactory.create("Heapsort", nWords, config);
+            runStringSortBenchmark(words, nWords, nRunsLinearithmic * 3, new HeapSort<>(helper), timeLoggersLinearithmic);
+//            System.out.println(helper.getCopies());
         }
 
         if (isConfigBenchmarkStringSorter("introsort") && nRunsLinearithmic > 0)
@@ -418,7 +431,10 @@ public class SortBenchmark {
      */
     static void runStringSortBenchmark(String[] words, int nWords, int nRuns, SortWithHelper<String> sorter, UnaryOperator<String[]> preProcessor, TimeLogger[] timeLoggers) {
         logger.info("****************************** String sort: " + nRuns + " runs of " + nWords + " " + sorter.getDescription() + " ******************************");
+//        Helper<String> helper = sorter.getHelper();
         new SorterBenchmark<>(String.class, preProcessor, sorter, words, nRuns, timeLoggers).run(getDescription(nWords, sorter), nWords);
+//        System.out.println("Sort Stats for " + nWords + " elements: Swaps: " + sorter.getHelper().getSwaps() + ", Comparisons: " + sorter.getHelper().getCompares() + ", Copies: " + sorter.getHelper().getCopies() + ", Hits: " + sorter.getHelper().getHits());
+        System.out.println("Sort Stats for " + nWords + " elements: Swaps: " + sorter.getHelper().showStats());
         sorter.close();
     }
 
@@ -437,6 +453,7 @@ public class SortBenchmark {
         sorter.getHelper().init(nWords, nRuns);
         try (Stopwatch stopwatch = new Stopwatch()) {
             runStringSortBenchmark(words, nWords, nRuns, sorter, sorter::preProcess, timeLoggers);
+
             logger.info("************************************************************ (" + stopwatch.lap() / 1000.0 + " sec.)");
         }
     }
@@ -620,7 +637,17 @@ public class SortBenchmark {
      */
     private void runMergeSortBenchmark(String[] words, int nWords, int nRuns, Config config) {
         try (SortWithComparableHelper<String> sorter = new MergeSort<>(nWords, nRuns, config)) {
+//            System.out.println("Helper class: " + helper.getClass());
+//            System.out.println("Is instrumented: " + isInstrumented(config));
+//            helper.init(nWords);
+//            System.out.println("Before sort - Swaps: " + helper.getSwaps() +
+//                    ", Comparisons: " + helper.getCompares() +
+//                    ", Copies: " + helper.getCopies());
             runStringSortBenchmark(words, nWords, nRuns, sorter, timeLoggersLinearithmic);
+//            System.out.println("MergeSort Stats for " + nWords + " elements: Swaps: " + helper.getSwaps() + ", Comparisons: " + helper.getCompares() + ", Copies: " +helper.getCopies());
+//            System.out.println("After sort - Swaps: " + helper.getSwaps() +
+//                    ", Comparisons: " + helper.getCompares() +
+//                    ", Copies: " + helper.getCopies());
         }
     }
 

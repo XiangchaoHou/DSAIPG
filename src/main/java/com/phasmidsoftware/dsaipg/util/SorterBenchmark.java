@@ -4,6 +4,7 @@
 
 package com.phasmidsoftware.dsaipg.util;
 
+import com.phasmidsoftware.dsaipg.sort.Helper;
 import com.phasmidsoftware.dsaipg.sort.SortWithHelper;
 
 import java.util.function.Consumer;
@@ -33,6 +34,10 @@ public class SorterBenchmark<T extends Comparable<T>> extends Benchmark_Timer<T[
             sorter.init(N);
             final double time = super.runFromSupplier(() -> generateRandomArray(ts), nRuns);
             for (TimeLogger timeLogger : timeLoggers) timeLogger.log(description, time, N);
+            logger.info("run: completed " + formatWhole(N) + " elements with " + this);
+//            System.out.println(sorter.getHelper().getCopies());
+//            Helper<T> helper = sorter.getHelper();
+//            System.out.println("HeapSort Stats Swaps: " + helper.getSwaps() + ", Comparisons: " + helper.getCompares() + ", Copies: " +helper.getCopies() + ", Hits: " + helper.getHits());
         } else
             logger.warn("run: skipping " + this);
     }
