@@ -234,10 +234,10 @@ public class SortBenchmark {
 //            System.out.println(helper.getCopies());
         }
        
-        if (isConfigBenchmarkStringSorter("heapsort")) {
-            Helper<String> helper = HelperFactory.create("Heapsort", nWords, config);
-            runStringSortBenchmark(words, nWords, nRuns, new HeapSort<>(helper), timeLoggersLinearithmic);
-        }
+//        if (isConfigBenchmarkStringSorter("heapsort")) {
+//            Helper<String> helper = HelperFactory.create("Heapsort", nWords, config);
+//            runStringSortBenchmark(words, nWords, nRuns, new HeapSort<>(helper), timeLoggersLinearithmic);
+//        }
 
         if (isConfigBenchmarkStringSorter("introsort") && nRunsLinearithmic > 0)
             try (SortWithHelper<String> sorter = new IntroSort<>(nWords, nRunsLinearithmic, config)) {
